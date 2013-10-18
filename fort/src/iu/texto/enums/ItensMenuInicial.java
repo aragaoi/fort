@@ -2,9 +2,8 @@ package iu.texto.enums;
 
 public enum ItensMenuInicial {
 	LOG_IN(0, "Entrar em minha conta"),
-	STATUS(1, "Atualizar Status"),
-	LOG_OUT(2, "Sair da minha conta"),
-	FECHAR(3, "Fechar ForTApp");
+	LOG_OUT(1, "Sair da minha conta"),
+	FECHAR(2, "Fechar ForTApp");
 	
 	private int id;
 	private String texto;
