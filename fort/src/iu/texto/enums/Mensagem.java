@@ -13,7 +13,11 @@ public enum Mensagem {
 	
 	MSG_DIGITE_OPCAO("  Digite sua opção e aperte [Enter]: "),
 	MSG_ESCREVA_CODIGO("Digite o código (code) indicado na página que foi aberta e aperte [Enter]: "),
-	MSG_NOVO_STATUS("- ATUALIZACAO DE STATUS -\n\nNo que você está pensando? ");
+	MSG_NOVO_STATUS("- ATUALIZACAO DE STATUS -\n\nNo que você está pensando? "),
+	MSG_TECLA_CONTINUAR("Digite qualquer tecla e aperte [Enter] para continuar."),
+	
+	MENU_INICIAL("MENU INICIAL"),
+	MENU_PRINCIPAL("MENU_PRINCIPAL");
 	
 	private String texto;
 	

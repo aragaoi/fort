@@ -16,27 +16,27 @@ public class InterfaceDeTexto {
 
 	public int mostraMenuInicial() {
 		System.out.println("*****************************************");
-		System.out.println("|\t       MENU INICIAL\t\t|");
+		System.out.println("|\t       "+Mensagem.MENU_INICIAL.getTexto()+"\t\t|");
 		System.out.println("*****************************************\n");
 		for(ItensMenuInicial im : ItensMenuInicial.values()){
 			System.out.println("\t"+ im.getId() +" - "+ im.getTexto());
 		}
 		System.out.println("\n*****************************************\n");
-		return leitor.leInt(Mensagem.MSG_DIGITE_OPCAO.getTexto());
+		return leOpcao();
 	}
-	
+
 	public int mostraMenuPrincipal(Facebook face) {
 		if(this.face == null){
 			this.face = face;
 		}
 		System.out.println("*****************************************");
-		System.out.println("|\tO QUE DESEJA FAZER?\t\t|");
+		System.out.println("|\t"+Mensagem.MENU_PRINCIPAL.getTexto()+"\t\t|");
 		System.out.println("*****************************************\n");
 		for(ItensMenuPrincipal im : ItensMenuPrincipal.values()){
 			System.out.println("\t"+ im.getId() +" - "+ im.getTexto());
 		}
 		System.out.println("\n*****************************************\n");
-		return leitor.leInt(Mensagem.MSG_DIGITE_OPCAO.getTexto());
+		return leOpcao();
 	}
 	
 	public String getCodigo(){
@@ -46,7 +46,7 @@ public class InterfaceDeTexto {
 	public void mostraResultado(Mensagem conexaoSucesso, boolean aguardaInteracao) {
 		String mensagem = "\n"+conexaoSucesso.getTexto()+"\n";
 		if(aguardaInteracao){
-			leitor.leString(mensagem+"\nDigite qualquer tecla e aperte [Enter] para continuar.");
+			leitor.leString(mensagem+"\n"+Mensagem.MSG_TECLA_CONTINUAR.getTexto()+"");
 		} else{
 			System.out.println(mensagem);
 		}
@@ -54,5 +54,9 @@ public class InterfaceDeTexto {
 
 	public String novoStatus() {
 		return leitor.leString(Mensagem.MSG_NOVO_STATUS.getTexto());
+	}
+	
+	private int leOpcao() {
+		return leitor.leInt(Mensagem.MSG_DIGITE_OPCAO.getTexto());
 	}
 }
