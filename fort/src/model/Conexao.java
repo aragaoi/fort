@@ -1,9 +1,15 @@
 package model;
 
+import iu.texto.enums.Mensagem;
+
 import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import model.exceptions.ChamadaBrowseFalhouException;
+import model.exceptions.ConexaoFalhouException;
 
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
@@ -20,24 +26,49 @@ public class Conexao {
 	public Conexao(){
 		ConfigurationBuilder cb = new ConfigurationBuilder()
 			.setDebugEnabled(true)
-			.setOAuthAppId(FacebookConstantes.APP_ID)
-			.setOAuthAppSecret(FacebookConstantes.APP_SECRET)
-			.setOAuthPermissions(FacebookConstantes.PERMISSIONS);
+			.setOAuthAppId(Configuracoes.APP_ID)
+			.setOAuthAppSecret(Configuracoes.APP_SECRET)
+			.setOAuthPermissions(Configuracoes.PERMISSIONS);
 		
 		this.conf = cb.build();
 		this.facebook = new FacebookFactory(conf).getInstance();
 	}	
 	
-	public void buscaCodigo() throws IOException, URISyntaxException{		URI uri = new URI(facebook.getOAuthAuthorizationURL(FacebookConstantes.CALLBACK_URL));;		Desktop.getDesktop().browse(uri);
+	public void buscaCodigo() throws IOException, URISyntaxException, ChamadaBrowseFalhouException{		URI uri = new URI(facebook.getOAuthAuthorizationURL(Configuracoes.CALLBACK_URL));
+		if (Desktop.isDesktopSupported()) {
+	        Desktop desktop = Desktop.getDesktop();
+	        if (desktop.isSupported(Action.BROWSE)){
+	            try {
+	                desktop.browse(uri);
+	                return;
+	            } catch (IOException e) {
+	                throw e;
+	            }
+	        } else{
+	        	throw new ChamadaBrowseFalhouException(Mensagem.ERRO_FALHA_BROWSE.getTexto());
+	        }
+	    } else{
+	    	throw new ChamadaBrowseFalhouException(Mensagem.ERRO_FALHA_BROWSE.getTexto());
+	    }
 	}
 	
-	public Facebook getConexaoFacebook(String codigo) throws FacebookException{
-		AccessToken token = facebook.getOAuthAccessToken(codigo);
-		facebook.setOAuthAccessToken(token);
-			
+	public Facebook getConexaoFacebook(String codigo) throws ConexaoFalhouException{
+		AccessToken token;
+		try {
+			token = facebook.getOAuthAccessToken(codigo);
+			facebook.setOAuthAccessToken(token);
+		} catch (FacebookException e) {
+			throw new ConexaoFalhouException(Mensagem.ERRO_CONEXAO.getTexto()+" "+e.getMessage());
+		}		
+		
 		if(facebook.getAuthorization().isEnabled()){
 			return this.facebook;
+		} else{
+			throw new ConexaoFalhouException(Mensagem.ERRO_CONEXAO.getTexto());
 		}
-		return null;
+	}
+	
+	public String getOAuthAuthorizationURL(){
+		return facebook.getOAuthAuthorizationURL(Configuracoes.CALLBACK_URL);
 	}
 }

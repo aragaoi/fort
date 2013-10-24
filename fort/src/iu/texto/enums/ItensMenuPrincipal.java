@@ -2,7 +2,8 @@ package iu.texto.enums;
 
 public enum ItensMenuPrincipal {
 	STATUS(0, "Atualizar Status"),
-	MENU_INICIAL(1, "Menu Inicial");
+	ATUALIZACOES(1, "Ver o Feed de Notícias"),
+	MENU_INICIAL(2, "Menu Inicial");
 	
 	private int id;
 	private String texto;
