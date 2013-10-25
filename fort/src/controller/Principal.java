@@ -105,7 +105,7 @@ public class Principal {
 				throw new OperacaoFalhouException(Mensagem.ERRO_POST_MURAL.getTexto()+" "+e.getMessage());
 			}
 		}else{
-			throw new OpcaoInvalidaException(Mensagem.ERRO_OPCAO_INVALIDA.getTexto());
+			throw new OpcaoInvalidaException(Mensagem.ERRO_AMIGO_SELECIONADO.getTexto());
 		}
 	}
 

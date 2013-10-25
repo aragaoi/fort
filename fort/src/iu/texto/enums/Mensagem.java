@@ -15,6 +15,7 @@ public enum Mensagem {
 	ERRO_FALHA_BROWSE("Falha ao abrir a URL no navegador padrão."),
 	ERRO_ATUALIZACOES("Falha ao buscar as atualizações."),
 	ERRO_PESQUISA_AMIGO("Amigo não encontrado."),
+	ERRO_AMIGO_SELECIONADO("Nenhum amigo selecionado."),
 	
 	MSG_DIGITE_OPCAO("  Digite sua opção e aperte [Enter]: "),
 	MSG_URL_NAVEGADOR("Acesse este endereço através do seu navegador de internet: "),

@@ -58,6 +58,8 @@ public class InterfaceDeTexto {
 		System.out.println("*****************************************\n");
 		if(this.amigoSelecionado != null){
 			System.out.println("\nAmigo selecionado: "+this.amigoSelecionado.getName()+"\n");
+		}else{
+			System.out.println("\nNenhum amigo selecionado.\n");
 		}
 		for(ItensMenuAmigos im : ItensMenuAmigos.values()){
 			System.out.println("\t"+ im.getId() +" - "+ im.getTexto());
