@@ -3,13 +3,18 @@ package controller;
 import iu.texto.InterfaceDeTexto;
 import iu.texto.enums.ItensMenuPrincipal;
 import iu.texto.enums.Mensagem;
+
+import java.util.List;
+
 import model.Conexao;
 import model.exceptions.ChamadaBrowseFalhouException;
 import model.exceptions.OpcaoInvalidaException;
 import model.exceptions.OperacaoFalhouException;
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
+import facebook4j.Friend;
 import facebook4j.Post;
+import facebook4j.PostUpdate;
 import facebook4j.ResponseList;
 
 public class Principal {
@@ -47,7 +52,7 @@ public class Principal {
 		}
 	}	
 
-	private static void resolveAcao(int opcao) throws OperacaoFalhouException, OpcaoInvalidaException {
+	private static void resolveAcaoPrincipal(int opcao) throws OperacaoFalhouException, OpcaoInvalidaException, FacebookException {
 		switch (opcao) {
 		case 0:
 			atualizaStatus();
@@ -56,11 +61,66 @@ public class Principal {
 			verAtualizacoes();
 			break;
 		case 2:
+			mostraMenuAmigos();
+			break;
+		case 3:
 			break;
 		default:
 			throw new OpcaoInvalidaException(Mensagem.ERRO_OPCAO_INVALIDA.getTexto());
 		}
 	}	
+
+	private static void mostraMenuAmigos() throws OperacaoFalhouException, OpcaoInvalidaException, FacebookException {
+		int opcao;
+		do{
+			opcao = iU.mostraMenuAmigos();
+			resolveAcaoAmigos(opcao);
+		}while(opcao != ItensMenuPrincipal.MENU_INICIAL.getId());		
+	}
+
+	private static void resolveAcaoAmigos(int opcao) throws OperacaoFalhouException, OpcaoInvalidaException, FacebookException {
+		Friend amigo;
+		switch (opcao) {
+		case 0:
+			mostraListaAmigos();
+			break;
+		case 1:
+			amigo = iU.getAmigoSelecionado();
+			escreverMural(amigo);
+			break;
+		case 2:
+			break;
+		default:
+			throw new OpcaoInvalidaException(Mensagem.ERRO_OPCAO_INVALIDA.getTexto());
+		}		
+	}
+
+	private static void escreverMural(Friend amigo) throws OperacaoFalhouException, OpcaoInvalidaException {
+		if(amigo != null){
+			try {
+				PostUpdate post = new PostUpdate(iU.escreverNoMural(amigo));
+				face.postFeed(amigo.getId(), post);
+				mostraSucesso(Mensagem.SUCESSO_POST_MURAL.getTexto().replace("#nome", amigo.getName()));
+			} catch (FacebookException e) {
+				throw new OperacaoFalhouException(Mensagem.ERRO_POST_MURAL.getTexto()+" "+e.getMessage());
+			}
+		}else{
+			throw new OpcaoInvalidaException(Mensagem.ERRO_OPCAO_INVALIDA.getTexto());
+		}
+	}
+
+	private static void mostraListaAmigos() throws FacebookException, OperacaoFalhouException {
+		iU.mostraListaAmigos(face.getFriends());
+		String idAmigo = iU.selecionaAmigo();
+		if(!idAmigo.equals("0")){
+			List<Friend> lista = face.getBelongsFriend(idAmigo);
+			if(!lista.isEmpty()){
+				iU.setAmigoSelecionado(lista.get(0));
+			} else{
+				throw new OperacaoFalhouException(Mensagem.ERRO_PESQUISA_AMIGO.getTexto());
+			}
+		}	
+	}
 
 	private static void atualizaStatus() throws OperacaoFalhouException {
 		try {
@@ -121,11 +181,11 @@ public class Principal {
 		}			
 	}
 	
-	private static void menuPrincipal() throws OperacaoFalhouException, OpcaoInvalidaException {
+	private static void menuPrincipal() throws OperacaoFalhouException, OpcaoInvalidaException, FacebookException {
 		int opcao;
 		do{
 			opcao = iU.mostraMenuPrincipal(face);
-			resolveAcao(opcao);
+			resolveAcaoPrincipal(opcao);
 		}while(opcao != ItensMenuPrincipal.MENU_INICIAL.getId());		
 	}
 	

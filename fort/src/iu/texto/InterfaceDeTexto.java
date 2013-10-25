@@ -1,21 +1,27 @@
 package iu.texto;
 
+import iu.texto.enums.ItensMenuAmigos;
 import iu.texto.enums.ItensMenuInicial;
 import iu.texto.enums.ItensMenuPrincipal;
 import iu.texto.enums.Mensagem;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import logica.Leitor;
 import facebook4j.Comment;
 import facebook4j.Facebook;
+import facebook4j.Friend;
 import facebook4j.Post;
 import facebook4j.ResponseList;
 
 public class InterfaceDeTexto {	
 	private Facebook face;
 	private Leitor leitor;
+	private Friend amigoSelecionado;
 
 	public InterfaceDeTexto(){
 		this.leitor = new Leitor();
@@ -45,6 +51,20 @@ public class InterfaceDeTexto {
 		System.out.println("\n*****************************************\n");
 		return leOpcao();
 	}
+	
+	public int mostraMenuAmigos() {
+		System.out.println("*****************************************");
+		System.out.println("|\t    "+Mensagem.MENU_AMIGOS.getTexto()+"    \t|");
+		System.out.println("*****************************************\n");
+		if(this.amigoSelecionado != null){
+			System.out.println("\nAmigo selecionado: "+this.amigoSelecionado.getName()+"\n");
+		}
+		for(ItensMenuAmigos im : ItensMenuAmigos.values()){
+			System.out.println("\t"+ im.getId() +" - "+ im.getTexto());
+		}
+		System.out.println("\n*****************************************\n");
+		return leOpcao();
+	}
 
 	public String novoStatus(String name) {
 		return leitor.leString(Mensagem.MSG_NOVO_STATUS.getTexto()+name+"?");
@@ -63,6 +83,10 @@ public class InterfaceDeTexto {
 				linhaSeparadora();
 			}
 		}		
+	}
+
+	public String escreverNoMural(Friend amigo) {
+		return leitor.leString(Mensagem.MSG_POST_MURAL.getTexto().replace("#nome", amigo.getName()));
 	}
 	
 	private void linhaSeparadora() {
@@ -158,4 +182,34 @@ public class InterfaceDeTexto {
 			System.out.println(mensagem);
 		}
 	}
+
+	public Friend getAmigoSelecionado() {
+		return this.amigoSelecionado;
+	}
+
+	public void setAmigoSelecionado(Friend amigoSelecionado) {
+		if(amigoSelecionado != null)
+			this.amigoSelecionado = amigoSelecionado;
+	}
+
+	public String selecionaAmigo() {
+		return leitor.leString(Mensagem.MSG_SELECIONA_AMIGO.getTexto());		
+	}
+
+	public void mostraListaAmigos(List<Friend> amigos) {
+		System.out.println(" - "+Mensagem.MENU_AMIGOS.getTexto()+" - ");
+		for(Friend amigo : ordenaAmigos(amigos)){
+			System.out.println("\t"+amigo.getId()+" - "+amigo.getName());
+		}
+	}
+
+	private List<Friend> ordenaAmigos(List<Friend> amigos) {
+		Collections.sort(amigos, new Comparator<Friend>() {
+			@Override
+			public int compare(Friend o1, Friend o2) {
+				return o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase());
+			}			
+		});
+		return amigos;
+	}	
 }
