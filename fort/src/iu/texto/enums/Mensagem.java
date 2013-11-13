@@ -24,6 +24,7 @@ public enum Mensagem {
 	MSG_NOVO_STATUS("- ATUALIZACAO DE STATUS -\n\nNo que você está pensando "),
 	MSG_POST_MURAL("- MURAL DE #nome -\n\nQual a mensagem que você quer postar? "),
 	MSG_PESQUISA_AMIGO("Qual o nome, ou parte do nome, que você quer procurar entre seus amigos? "),
+	MSG_RESULTADO_PESQUISA_AMIGO("Amigos encontrados na pesquisa: "),
 	MSG_SELECIONA_AMIGO("Digite 0 para voltar ao Menu ou o ID de um amigo da lista para selecioná-lo: "),
 	MSG_TECLA_CONTINUAR("Digite qualquer tecla e aperte [Enter] para continuar."),
 	

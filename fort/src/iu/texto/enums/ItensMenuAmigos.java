@@ -1,8 +1,8 @@
 package iu.texto.enums;
 
 public enum ItensMenuAmigos {
-	LISTAR(0, "Mostrar Lista"),
-	POSTAR_MURAL(1, "Escrever no Mural"),
+	PESQUISAR(0, "Pesquisar"),
+	VER_MURAL(1, "Ver o Mural"),
 	VOLTAR(2, "Voltar ao Menu Anterior");
 	
 	private int id;

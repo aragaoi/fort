@@ -5,13 +5,13 @@ import iu.texto.enums.ItensMenuInicial;
 import iu.texto.enums.ItensMenuPrincipal;
 import iu.texto.enums.Mensagem;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import logica.Leitor;
+import model.Amigo;
 import facebook4j.Comment;
 import facebook4j.Facebook;
 import facebook4j.Friend;
@@ -23,7 +23,7 @@ public class InterfaceDeTexto {
 	private Leitor leitor;
 	private Friend amigoSelecionado;
 
-	public InterfaceDeTexto(){
+	public InterfaceDeTexto() throws IOException{
 		this.leitor = new Leitor();
 	}
 
@@ -198,20 +198,24 @@ public class InterfaceDeTexto {
 		return leitor.leString(Mensagem.MSG_SELECIONA_AMIGO.getTexto());		
 	}
 
-	public void mostraListaAmigos(List<Friend> amigos) {
+	public String pesquisaAmigos() {		
 		System.out.println(" - "+Mensagem.MENU_AMIGOS.getTexto()+" - ");
-		for(Friend amigo : ordenaAmigos(amigos)){
-			System.out.println("\t"+amigo.getId()+" - "+amigo.getName());
-		}
+		return leitor.leString(Mensagem.MSG_PESQUISA_AMIGO.getTexto());		
 	}
 
-	private List<Friend> ordenaAmigos(List<Friend> amigos) {
-		Collections.sort(amigos, new Comparator<Friend>() {
-			@Override
-			public int compare(Friend o1, Friend o2) {
-				return o1.getName().toUpperCase().compareTo(o2.getName().toUpperCase());
-			}			
-		});
-		return amigos;
-	}	
+	public String mostraResultadoPesquisa(List<Amigo> amigos) {
+		System.out.println("\n - "+Mensagem.MSG_RESULTADO_PESQUISA_AMIGO.getTexto());
+		long i = 1;
+		for(Amigo a : amigos){
+			System.out.println("\t"+i+" - "+a.getName());
+			i++;
+		}
+		System.out.println();
+		Long opcao = leitor.leLong(Mensagem.MSG_SELECIONA_AMIGO.getTexto());
+		if(opcao != 0 && amigos.size() >= opcao){
+			return amigos.get(new Long(opcao-1L).intValue()).getUid();
+		}else{
+			return "0";
+		}
+	}
 }
