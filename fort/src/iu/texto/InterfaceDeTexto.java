@@ -1,9 +1,9 @@
 package iu.texto;
 
-import iu.texto.enums.ItensMenuAmigos;
-import iu.texto.enums.ItensMenuInicial;
-import iu.texto.enums.ItensMenuPrincipal;
-import iu.texto.enums.Mensagem;
+import iu.enums.ItensMenuAmigos;
+import iu.enums.ItensMenuInicial;
+import iu.enums.ItensMenuPrincipal;
+import iu.enums.Mensagem;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -81,19 +81,34 @@ public class InterfaceDeTexto {
 				mostraDescricao(post);
 				mostraMensagem(post);
 				mostraData(post);
+				mostraCurtidas(post);
 				mostraComentarios(post);
 				linhaSeparadora();
 			}
 		}		
 	}
 
+
 	public String escreverNoMural(Friend amigo) {
-		return leitor.leString(Mensagem.MSG_POST_MURAL.getTexto().replace("#nome", amigo.getName()));
+		return leitor.leString(Mensagem.MSG_VER_MURAL.getTexto().replace("#nome", amigo.getName()));
 	}
 	
 	private void linhaSeparadora() {
 		System.out.println("----------");
 		System.out.println();
+	}
+
+	private void mostraCurtidas(Post post) {
+		if(post.getLikes() != null){
+			int qnt = post.getLikes().size();
+			String str = "";
+			if(qnt == 1){
+				str = qnt+" opção curtir";
+			} else if(qnt > 1){
+				str = qnt+" opções curtir";
+			}
+			System.out.println("\n\t"+str);		
+		}
 	}
 
 	private void mostraData(Post post) {

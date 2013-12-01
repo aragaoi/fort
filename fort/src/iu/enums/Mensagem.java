@@ -1,4 +1,4 @@
-package iu.texto.enums;
+package iu.enums;
 
 public enum Mensagem {
 
@@ -22,11 +22,15 @@ public enum Mensagem {
 	MSG_ESCREVA_CODIGO_MANUAL("Um novo endereço (URL) foi gerado na barra de endereços do seu navegador.\nCole-o aqui e aperte [Enter]: "),
 	MSG_ESCREVA_CODIGO("Cole aqui o endereço (URL) da página que foi aberta em seu navegador e aperte [Enter]: "),
 	MSG_NOVO_STATUS("- ATUALIZACAO DE STATUS -\n\nNo que você está pensando "),
-	MSG_POST_MURAL("- MURAL DE #nome -\n\nQual a mensagem que você quer postar? "),
+	MSG_VER_MURAL("- MURAL DE #nome -\n\n "),
 	MSG_PESQUISA_AMIGO("Qual o nome, ou parte do nome, que você quer procurar entre seus amigos? "),
 	MSG_RESULTADO_PESQUISA_AMIGO("Amigos encontrados na pesquisa: "),
 	MSG_SELECIONA_AMIGO("Digite 0 para voltar ao Menu ou o ID de um amigo da lista para selecioná-lo: "),
 	MSG_TECLA_CONTINUAR("Digite qualquer tecla e aperte [Enter] para continuar."),
+	MSG_NAO_CONECTADO("Não há conexão aberta atualmente."),
+	MSG_CONECTADO("Conexão aberta para o usuário #nome."),
+	
+	BT_CONECTAR("Conectar"),
 	
 	MENU_INICIAL("MENU INICIAL"),
 	MENU_PRINCIPAL("O QUE DESEJA FAZER?"),

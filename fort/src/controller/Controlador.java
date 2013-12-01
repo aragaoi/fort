@@ -1,8 +1,8 @@
 package controller;
 
+import iu.enums.ItensMenuPrincipal;
+import iu.enums.Mensagem;
 import iu.texto.InterfaceDeTexto;
-import iu.texto.enums.ItensMenuPrincipal;
-import iu.texto.enums.Mensagem;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +23,6 @@ import facebook4j.Facebook;
 import facebook4j.FacebookException;
 import facebook4j.Friend;
 import facebook4j.Post;
-import facebook4j.PostUpdate;
 import facebook4j.ResponseList;
 import facebook4j.internal.org.json.JSONArray;
 import facebook4j.internal.org.json.JSONException;
@@ -32,7 +31,6 @@ public class Controlador {
 	
 	private Facebook face;
 	private InterfaceDeTexto iU;
-	private List<Friend> listAmigos;
 	private Gson gson;
 	
 	public Controlador(){}
@@ -70,7 +68,7 @@ public class Controlador {
 	private void resolveAcaoPrincipal(int opcao) throws OperacaoFalhouException, OpcaoInvalidaException, FacebookException, IOException, JSONException {
 		switch (opcao) {
 		case 0:
-			atualizaStatus();
+//			atualizaStatus();
 			break;
 		case 1:
 			verAtualizacoes();
@@ -110,22 +108,21 @@ public class Controlador {
 		}		
 	}
 
-	private void verMural(Friend amigo) throws OperacaoFalhouException, OpcaoInvalidaException {
+	public void verMural(Friend amigo) throws OperacaoFalhouException, OpcaoInvalidaException {
 		if(amigo != null){
+			System.out.println(Mensagem.MSG_VER_MURAL.getTexto().replace("#nome", amigo.getName().toUpperCase()));
 			try {
-				PostUpdate post = new PostUpdate(iU.escreverNoMural(amigo));
-				face.postFeed(amigo.getId(), post);
-				mostraSucesso(Mensagem.SUCESSO_POST_MURAL.getTexto().replace("#nome", amigo.getName()));
+				ResponseList<Post> atualizacoes = face.getFeed(amigo.getId());
+				iU.mostraAtualizacoesStatus(atualizacoes);
 			} catch (FacebookException e) {
-				throw new OperacaoFalhouException(Mensagem.ERRO_POST_MURAL.getTexto()+" "+e.getMessage());
+				throw new OperacaoFalhouException(Mensagem.ERRO_ATUALIZACOES.getTexto()+" "+e.getMessage());
 			}
 		}else{
 			throw new OpcaoInvalidaException(Mensagem.ERRO_AMIGO_SELECIONADO.getTexto());
 		}
 	}
 
-	private void pesquisaAmigos() throws FacebookException, OperacaoFalhouException, JSONException {
-		listAmigos = ordenaAmigos(face.getFriends());
+	public void pesquisaAmigos() throws FacebookException, OperacaoFalhouException, JSONException {
 		String pesquisa = iU.pesquisaAmigos();
 		JSONArray resultado = face.executeFQL("SELECT name, uid FROM user WHERE name >= '"+pesquisa+"' AND name <= '"+pesquisa+"z' AND uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) order by name asc");
 		System.out.println(face.getOAuthAccessToken().getToken());
@@ -149,9 +146,8 @@ public class Controlador {
 		return lista;
 	}
 
-	private void atualizaStatus() throws OperacaoFalhouException {
+	public void atualizaStatus(String status) throws OperacaoFalhouException {
 		try {
-			String status = iU.novoStatus(face.getName());
 			face.postStatusMessage(status);
 			mostraSucesso(Mensagem.SUCESSO_NOVO_STATUS.getTexto());
 		} catch (FacebookException e) {
@@ -159,7 +155,7 @@ public class Controlador {
 		}		
 	}
 	
-	private void verAtualizacoes() throws OperacaoFalhouException {
+	public void verAtualizacoes() throws OperacaoFalhouException {
 		try {
 			ResponseList<Post> atualizacoes = face.getHome();
 			iU.mostraAtualizacoesStatus(atualizacoes);
@@ -168,7 +164,7 @@ public class Controlador {
 		}		
 	}
 
-	private void iniciaConexao() throws Exception {
+	public void iniciaConexao() throws Exception {
 		Conexao con;	
 		
 		try {
@@ -242,9 +238,17 @@ public class Controlador {
 			amigosOrdenados.add(f);
 		}		
 		return amigosOrdenados;
-	}	
+	}
+	
+	public String getUsuarioConectado() throws IllegalStateException, FacebookException{
+		if(this.face != null){
+			return this.face.getName();
+		} else {
+			return null;
+		}
+	}
 
-	private void fechaConexao() {
+	public void fechaConexao() {
 		face = null;		
 	}
 }

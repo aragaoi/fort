@@ -1,6 +1,6 @@
 package model;
 
-import iu.texto.enums.Mensagem;
+import iu.enums.Mensagem;
 
 import java.awt.Desktop;
 import java.awt.Desktop.Action;

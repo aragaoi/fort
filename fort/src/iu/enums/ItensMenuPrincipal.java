@@ -1,4 +1,4 @@
-package iu.texto.enums;
+package iu.enums;
 
 public enum ItensMenuPrincipal {
 	STATUS(0, "Atualizar Status"),
