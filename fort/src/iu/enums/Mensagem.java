@@ -20,7 +20,7 @@ public enum Mensagem {
 	MSG_DIGITE_OPCAO("  Digite sua opção e aperte [Enter]: "),
 	MSG_URL_NAVEGADOR("Acesse este endereço através do seu navegador de internet: "),
 	MSG_ESCREVA_CODIGO_MANUAL("Um novo endereço (URL) foi gerado na barra de endereços do seu navegador.\nCole-o aqui e aperte [Enter]: "),
-	MSG_ESCREVA_CODIGO("Cole aqui o endereço (URL) da página que foi aberta em seu navegador e aperte [Enter]: "),
+	MSG_ESCREVA_CODIGO("Cole aqui o endereço (URL) da página que foi aberta em seu navegador e clique em [Conectar]: "),
 	MSG_NOVO_STATUS("- ATUALIZACAO DE STATUS -\n\nNo que você está pensando "),
 	MSG_VER_MURAL("- MURAL DE #nome -\n\n "),
 	MSG_PESQUISA_AMIGO("Qual o nome, ou parte do nome, que você quer procurar entre seus amigos? "),

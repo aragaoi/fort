@@ -52,7 +52,7 @@ public class Controlador {
 	private void resolveAcaoInicial(int opcao) throws Exception {
 		switch (opcao) {
 		case 0:
-			iniciaConexao();
+			iniciaConexao("");
 			break;
 		case 1:
 			fechaConexao();
@@ -164,19 +164,25 @@ public class Controlador {
 		}		
 	}
 
-	public void iniciaConexao() throws Exception {
+	public void abreBrowser() throws Exception {			
+		if(face == null){
+			Conexao con = new Conexao();
+			con.buscaCodigo();				
+		}					
+	}
+	
+	public void iniciaConexao(String url) throws Exception {
 		Conexao con;	
 		
 		try {
 			if(face == null){
 				con = new Conexao();
 				con.buscaCodigo();
-				String url = iU.leURLCodigo();
 				
 				face = con.getConexaoFacebook(extraiCodigo(url));
 			}				
-				mostraSucesso(Mensagem.SUCESSO_CONEXAO.getTexto());	
-				menuPrincipal();
+			mostraSucesso(Mensagem.SUCESSO_CONEXAO.getTexto());	
+			menuPrincipal();
 		} catch (Exception e) {
 			if(e instanceof ChamadaBrowseFalhouException){
 				iniciaConexaoManual();

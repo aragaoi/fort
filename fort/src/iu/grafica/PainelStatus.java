@@ -2,7 +2,6 @@ package iu.grafica;
 
 import iu.enums.Mensagem;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +40,7 @@ public class PainelStatus extends JPanel implements ActionListener {
 	private void defineComponentes() {		
 		this.campoStatus = new JTextArea("No que você está pensando?");
 		this.painelTexto = new JScrollPane(campoStatus);
-		this.painelTexto.setMaximumSize(new Dimension(300, 150));
+		this.painelTexto.setMaximumSize(new Dimension(this.telaPrincipal.getWidth(), 150));
 		this.botaoPostar = new JButton("Atualizar Status");
 		this.botaoPostar.addActionListener(this);
 	}
@@ -53,7 +52,7 @@ public class PainelStatus extends JPanel implements ActionListener {
 		this.setLayout(gl);
 		{
 			SequentialGroup sg = gl.createSequentialGroup();
-			ParallelGroup pg = gl.createParallelGroup(Alignment.CENTER);
+			ParallelGroup pg = gl.createParallelGroup(Alignment.CENTER, true);
 			pg.addComponent(this.painelTexto, Alignment.CENTER);
 			pg.addComponent(this.botaoPostar, Alignment.CENTER);
 			sg.addGroup(pg);
@@ -61,9 +60,9 @@ public class PainelStatus extends JPanel implements ActionListener {
 		}
 		{
 			SequentialGroup sg = gl.createSequentialGroup();
-			ParallelGroup pg = gl.createParallelGroup(Alignment.CENTER);
+			ParallelGroup pg = gl.createParallelGroup(Alignment.CENTER, true);
 			sg.addComponent(painelTexto);
-			sg.addComponent(botaoPostar);	
+			sg.addComponent(botaoPostar);
 			pg.addGroup(Alignment.CENTER, sg);
 			gl.setVerticalGroup(pg);
 		}
@@ -73,6 +72,7 @@ public class PainelStatus extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			controlador.atualizaStatus(campoStatus.getText());
+			this.telaPrincipal.mostraMensagem(Mensagem.SUCESSO_NOVO_STATUS.getTexto(), false);			
 		} catch (OperacaoFalhouException e1) {
 			this.telaPrincipal.mostraMensagem(Mensagem.ERRO_NOVO_STATUS.getTexto(), true);
 		}

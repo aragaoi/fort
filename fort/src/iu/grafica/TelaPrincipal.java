@@ -2,18 +2,12 @@ package iu.grafica;
 
 import iu.enums.ItensMenuAmigos;
 import iu.enums.ItensMenuInicial;
-import iu.enums.Mensagem;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -86,7 +80,7 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 		} else if(source.equals(ItensMenuInicial.ATUALIZACOES.getTexto())){
 			
 		} else if(source.equals(ItensMenuInicial.LOG_IN.getTexto())){
-			setContentPane(new PainelLogin(controlador, this));
+				setContentPane(new PainelLogin(controlador, this));
 		} else if(source.equals(ItensMenuInicial.LOG_OUT.getTexto())){
 			
 		} else if(source.equals(ItensMenuInicial.FECHAR.getTexto())){
